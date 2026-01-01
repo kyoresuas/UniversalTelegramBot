@@ -1,0 +1,45 @@
+{
+  "middleware": {
+    "verify": {
+      "NOT_ENOUGH_PERMISSIONS": "You do not have enough permissions to perform this action"
+    },
+    "auth": {
+      "AUTH_FAILED": "Authentication failed"
+    }
+  },
+  "common": {
+    "buttons": {
+      "BACK": "Back"
+    }
+  },
+  "services": {
+    "bot": {
+      "text": {
+        "WELCOME": "Hello!",
+        "INFO": "Bot info"
+      },
+      "buttons": {
+        "SETTINGS": "Settings",
+        "INFO": "Info",
+        "ADMIN_PANEL": "Admin panel"
+      }
+    },
+    "admin": {
+      "text": {
+        "ADMIN_PANEL": "Admin panel"
+      }
+    },
+    "settings": {
+      "text": {
+        "TITLE": "Settings",
+        "CHOOSE_LANGUAGE": "Choose language",
+        "LANGUAGE_UPDATED": "Language updated"
+      },
+      "buttons": {
+        "LANGUAGE": "Language",
+        "RU": "Russian",
+        "EN": "English"
+      }
+    }
+  }
+}

@@ -1,5 +1,10 @@
+import {
+  User,
+  UserLanguage,
+  UserSettings,
+  TelegramAccount,
+} from "@/entities/user";
 import { Repository } from "typeorm";
-import { User, TelegramAccount } from "@/entities/user";
 
 /**
  * Сервис для авторизации пользователей
@@ -9,6 +14,7 @@ export class AuthService {
 
   constructor(
     private userRepository: Repository<User>,
+    private userSettingsRepository: Repository<UserSettings>,
     private telegramAccountRepository: Repository<TelegramAccount>
   ) {}
 
@@ -28,6 +34,9 @@ export class AuthService {
   }): Promise<{ user: User }> {
     const from = params.telegram;
     const telegramId = String(from.id);
+    const languageCode = from.language_code?.toLowerCase() ?? null;
+    const defaultLanguage: UserLanguage =
+      languageCode && languageCode.startsWith("en") ? "en" : "ru";
 
     // Найти или создать профиль Telegram
     let telegram = await this.telegramAccountRepository.findOne({
@@ -46,25 +55,34 @@ export class AuthService {
 
     if (!telegram) {
       telegram = this.telegramAccountRepository.create(telegramData);
-      await this.telegramAccountRepository.insert(telegram);
     } else {
-      await this.telegramAccountRepository.update(
-        { id: telegram.id },
-        telegramData
-      );
+      Object.assign(telegram, telegramData);
     }
+
+    telegram = await this.telegramAccountRepository.save(telegram);
 
     // Найти или создать пользователя
     let user = telegram.userId
-      ? await this.userRepository.findOne({ where: { id: telegram.userId } })
+      ? await this.userRepository.findOne({
+          where: { id: telegram.userId },
+          relations: { settings: true },
+        })
       : null;
 
     if (!user) {
-      user = this.userRepository.create({ role: null });
-      await this.userRepository.insert(user);
-      await this.telegramAccountRepository.update(
-        { id: telegram.id },
-        { userId: user.id }
+      user = await this.userRepository.save(
+        this.userRepository.create({ role: null })
+      );
+      telegram.userId = user.id;
+    }
+
+    // Создать настройки пользователя
+    if (!user.settings) {
+      user.settings = await this.userSettingsRepository.save(
+        this.userSettingsRepository.create({
+          userId: user.id,
+          language: defaultLanguage,
+        })
       );
     }
 

@@ -1,8 +1,8 @@
-import { User, TelegramAccount } from "@/entities/user";
+import { User, UserSettings, TelegramAccount } from "@/entities/user";
 
 /**
  * Сущности операционной базы данных
  */
-const entities = [User, TelegramAccount];
+const entities = [User, UserSettings, TelegramAccount];
 
 export default entities;

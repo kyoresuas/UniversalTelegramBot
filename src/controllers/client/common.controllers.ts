@@ -25,6 +25,6 @@ export const commonBackController: BotController = {
  * Информация о боте
  */
 export const commonInfoController: BotController = {
-  meta: { event: { type: "callback", data: /^info$/ } },
+  meta: { event: { type: "callback", data: /^info:open$/ } },
   handler: commonInfoHandler,
 };

@@ -1,4 +1,5 @@
 import { User } from "@/entities/user";
+import { I18n, I18nArgs } from "@/types/shared";
 import { Context, MiddlewareFn } from "telegraf";
 
 export interface SessionData {
@@ -23,7 +24,9 @@ export type BotContext = Context &
   BotReplyHelpers & {
     state: {
       user?: User;
+      language?: "ru" | "en";
     };
+    t: (key: I18n, args?: I18nArgs) => string;
   };
 
 export type BotEventType =

@@ -1,0 +1,45 @@
+{
+  "middleware": {
+    "verify": {
+      "NOT_ENOUGH_PERMISSIONS": "У вас недостаточно прав для выполнения этого действия"
+    },
+    "auth": {
+      "AUTH_FAILED": "Авторизация не пройдена"
+    }
+  },
+  "common": {
+    "buttons": {
+      "BACK": "Назад"
+    }
+  },
+  "services": {
+    "bot": {
+      "text": {
+        "WELCOME": "Привет!",
+        "INFO": "Информация о боте"
+      },
+      "buttons": {
+        "SETTINGS": "Настройки",
+        "INFO": "Информация",
+        "ADMIN_PANEL": "Панель администратора"
+      }
+    },
+    "admin": {
+      "text": {
+        "ADMIN_PANEL": "Панель администратора"
+      }
+    },
+    "settings": {
+      "text": {
+        "TITLE": "Настройки",
+        "CHOOSE_LANGUAGE": "Выберите язык",
+        "LANGUAGE_UPDATED": "Язык успешно обновлен"
+      },
+      "buttons": {
+        "LANGUAGE": "Язык",
+        "RU": "Русский",
+        "EN": "Английский"
+      }
+    }
+  }
+}

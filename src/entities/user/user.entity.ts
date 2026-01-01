@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { UserSettings } from "./userSettings.entity";
 import { TelegramAccount } from "./telegramAccount.entity";
 
 export enum UserRole {
@@ -33,6 +34,12 @@ export class User {
    */
   @OneToOne(() => TelegramAccount, (ta: TelegramAccount) => ta.user)
   telegramAccount!: TelegramAccount | null;
+
+  /**
+   * Настройки пользователя
+   */
+  @OneToOne(() => UserSettings, (s: UserSettings) => s.user, { nullable: true })
+  settings!: UserSettings | null;
 
   @CreateDateColumn()
   createdAt!: Date;

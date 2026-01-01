@@ -18,12 +18,23 @@ export class BotService {
 
     const user = ctx.state.user;
 
-    const text = "Привет!";
-    const buttons = [[Markup.button.callback("Информация", "info")]];
+    const text = ctx.t("services.bot.text.WELCOME");
+    const buttons = [
+      [
+        Markup.button.callback(
+          ctx.t("services.bot.buttons.SETTINGS"),
+          "settings:open"
+        ),
+      ],
+      [Markup.button.callback(ctx.t("services.bot.buttons.INFO"), "info:open")],
+    ];
 
     if (user?.role === UserRole.ADMINISTRATOR) {
       buttons.push([
-        Markup.button.callback("Панель администратора", "admin:open"),
+        Markup.button.callback(
+          ctx.t("services.bot.buttons.ADMIN_PANEL"),
+          "admin:open"
+        ),
       ]);
     }
 
@@ -37,28 +48,14 @@ export class BotService {
   }
 
   /**
-   * Админ панель
-   */
-  async handleAdminPanel(ctx: BotContext): Promise<void> {
-    if (!ctx.from) return;
-
-    const text = "Админ панель";
-    const keyboard = Markup.inlineKeyboard([
-      [Markup.button.callback("Назад", "back")],
-    ]);
-
-    await ctx.replyWithNewMessage(text, keyboard);
-  }
-
-  /**
    * Информация о боте
    */
   async handleInfo(ctx: BotContext): Promise<void> {
     if (!ctx.from) return;
 
-    const text = "Информация о боте";
+    const text = ctx.t("services.bot.text.INFO");
     const keyboard = Markup.inlineKeyboard([
-      [Markup.button.callback("Назад", "back")],
+      [Markup.button.callback(ctx.t("common.buttons.BACK"), "back")],
     ]);
 
     await ctx.replyWithNewMessage(text, keyboard);

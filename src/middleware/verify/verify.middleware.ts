@@ -19,13 +19,17 @@ export const verifyPreHandler = (
 
     if (!role || !roles.includes(role)) {
       if (ctx.callbackQuery) {
-        await ctx.answerCbQuery("Недостаточно прав");
+        await ctx.answerCbQuery(
+          ctx.t("middleware.verify.NOT_ENOUGH_PERMISSIONS")
+        );
         return;
       }
 
       ctx.replyWithNewMessage(
-        "Недостаточно прав",
-        Markup.inlineKeyboard([[Markup.button.callback("Назад", "back")]])
+        ctx.t("middleware.verify.NOT_ENOUGH_PERMISSIONS"),
+        Markup.inlineKeyboard([
+          [Markup.button.callback(ctx.t("common.buttons.BACK"), "back")],
+        ])
       );
       return;
     }

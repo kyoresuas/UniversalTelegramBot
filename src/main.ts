@@ -3,11 +3,19 @@ import { appLogger } from "@/config/winstonLogger";
 import { setupDIContainer } from "@/config/DIContainer";
 import { setupTaskQueue } from "@/config/setupTaskQueue";
 import { setupTelegramBot } from "@/config/setupTelegram";
+import { setupMultilingualism } from "@/config/setupMultilingualism";
 import { connectToOperationalDatabase } from "@/config/connectToOperationalDatabase";
 
 const bootstrapApp = async (): Promise<void> => {
   // Внедрить зависимости
   setupDIContainer();
+
+  // Подключить мультиязычность
+  try {
+    await setupMultilingualism();
+  } catch (err) {
+    appLogger.fatal((err as Error).message);
+  }
 
   // Подключиться к операционной базе данных
   try {

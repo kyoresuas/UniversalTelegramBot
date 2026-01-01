@@ -1,10 +1,14 @@
+import {
+  authMiddleware,
+  i18nMiddleware,
+  contextHelpersMiddleware,
+} from "@/middleware";
 import { appLogger } from "./winstonLogger";
 import { Telegraf, session } from "telegraf";
 import * as Controllers from "@/controllers";
 import appConfig from "@/constants/appConfig";
 import { setupTelegramCommands } from "./setupTelegramCommands";
 import { registerBotHandlers } from "@/helpers/registerBotHandlers";
-import { authMiddleware, contextHelpersMiddleware } from "@/middleware";
 import { BotController, BotContext, SessionData } from "@/types/telegram";
 
 let telegramBotInstance: Telegraf<BotContext>;
@@ -55,6 +59,8 @@ export const setupTelegramBot = async (): Promise<void> => {
   );
   // Хелперы для контекста
   bot.use(contextHelpersMiddleware);
+  // Мультиязычность
+  bot.use(i18nMiddleware);
   // Авторизация
   bot.use(authMiddleware);
 
