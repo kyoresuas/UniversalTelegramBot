@@ -3,16 +3,18 @@ import { BotHandler } from "@/types/telegram";
 import { SettingsService } from "@/services/settings";
 
 export const settingsSetLanguageHandler: BotHandler = async (ctx) => {
-  const data =
-    ctx.callbackQuery && "data" in ctx.callbackQuery
-      ? ctx.callbackQuery.data
+  const callbackQuery = ctx.callbackQuery;
+  if (!callbackQuery || !("data" in callbackQuery)) return;
+
+  const data = callbackQuery.data;
+  const language =
+    data === "settings:lang:ru"
+      ? "ru"
+      : data === "settings:lang:en"
+      ? "en"
       : null;
 
-  const match =
-    typeof data === "string" ? data.match(/^settings:lang:(ru|en)$/) : null;
-  if (!match) return;
-
-  const language = match[1] as "ru" | "en";
+  if (!language) return;
 
   const settingsService = di.container.resolve<SettingsService>(
     SettingsService.key
