@@ -10,14 +10,14 @@ export class BotService {
   constructor() {}
 
   /**
-   * Начать
+   * Вызвать главное меню
    */
   async handleStart(ctx: BotContext, back?: boolean): Promise<void> {
     if (!ctx.from) return;
 
-    const text = "Hello";
+    const text = "Привет!";
     const keyboard = Markup.inlineKeyboard([
-      [Markup.button.callback("Назад", "back")],
+      [Markup.button.callback("Информация", "info")],
     ]);
 
     if (back) {
@@ -25,5 +25,19 @@ export class BotService {
     } else {
       await ctx.reply(text, keyboard);
     }
+  }
+
+  /**
+   * Информация о боте
+   */
+  async handleInfo(ctx: BotContext): Promise<void> {
+    if (!ctx.from) return;
+
+    const text = "Информация о боте";
+    const keyboard = Markup.inlineKeyboard([
+      [Markup.button.callback("Назад", "back")],
+    ]);
+
+    await ctx.replyWithNewMessage(text, keyboard);
   }
 }
