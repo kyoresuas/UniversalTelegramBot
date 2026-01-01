@@ -3,6 +3,7 @@ import { di } from "./DIContainer";
 import { appLogger } from "./winstonLogger";
 import { CronService } from "@/services/cron";
 import appConfig from "@/constants/appConfig";
+import { CronContract } from "@/contracts/cron";
 
 /**
  * Запуск очереди задач
@@ -20,6 +21,10 @@ export const setupTaskQueue = (): void => {
 
     for (const taskName of appConfig.ENABLED_TASKS) {
       switch (taskName) {
+        case CronContract.UpdateUsers.name:
+          cronService.addTask(CronContract.UpdateUsers);
+          break;
+
         default:
           appLogger.error(`Не удалось определить название задачи: ${taskName}`);
       }

@@ -35,6 +35,12 @@ export class TelegramAccount {
   userId!: string | null;
 
   /**
+   * Пользователь заблокировал бота
+   */
+  @Column({ type: "boolean", default: false })
+  isBotBlocked!: boolean;
+
+  /**
    * Telegram ID
    */
   @Column({ type: "bigint" })
