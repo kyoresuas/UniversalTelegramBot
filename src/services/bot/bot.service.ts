@@ -1,4 +1,5 @@
 import { Markup } from "telegraf";
+import { UserRole } from "@/entities/user";
 import { BotContext } from "@/types/telegram";
 
 /**
@@ -15,16 +16,38 @@ export class BotService {
   async handleStart(ctx: BotContext, back?: boolean): Promise<void> {
     if (!ctx.from) return;
 
+    const user = ctx.state.user;
+
     const text = "Привет!";
-    const keyboard = Markup.inlineKeyboard([
-      [Markup.button.callback("Информация", "info")],
-    ]);
+    const buttons = [[Markup.button.callback("Информация", "info")]];
+
+    if (user?.role === UserRole.ADMINISTRATOR) {
+      buttons.push([
+        Markup.button.callback("Панель администратора", "admin:open"),
+      ]);
+    }
+
+    const keyboard = Markup.inlineKeyboard(buttons);
 
     if (back) {
       await ctx.replyWithNewMessage(text, keyboard);
     } else {
       await ctx.reply(text, keyboard);
     }
+  }
+
+  /**
+   * Админ панель
+   */
+  async handleAdminPanel(ctx: BotContext): Promise<void> {
+    if (!ctx.from) return;
+
+    const text = "Админ панель";
+    const keyboard = Markup.inlineKeyboard([
+      [Markup.button.callback("Назад", "back")],
+    ]);
+
+    await ctx.replyWithNewMessage(text, keyboard);
   }
 
   /**

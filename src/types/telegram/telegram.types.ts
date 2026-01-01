@@ -1,3 +1,4 @@
+import { User } from "@/entities/user";
 import { Context, MiddlewareFn } from "telegraf";
 
 export interface SessionData {
@@ -17,7 +18,13 @@ export interface BotReplyHelpers {
   replyWithNewMessage: ReplyWithNewMessage;
 }
 
-export type BotContext = Context & BotSessionFlavor & BotReplyHelpers;
+export type BotContext = Context &
+  BotSessionFlavor &
+  BotReplyHelpers & {
+    state: {
+      user?: User;
+    };
+  };
 
 export type BotEventType =
   | { type: "command"; command: string }
