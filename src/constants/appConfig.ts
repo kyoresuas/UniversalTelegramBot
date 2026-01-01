@@ -1,9 +1,11 @@
 import "dotenv/config";
+import { TaskType } from "@/types/cron";
 import { IAppConfig, Module } from "@/types/shared";
 
 const {
   ENV,
   ENABLED_MODULES,
+  ENABLED_TASK_TYPES,
   ENABLED_TASKS,
   POSTGRESQL_URL,
   TELEGRAM_BOT_TOKEN,
@@ -16,6 +18,9 @@ const appConfig: IAppConfig = {
   ENV: ENV as "development" | "preproduction" | "production",
   ENABLED_MODULES: ENABLED_MODULES
     ? (ENABLED_MODULES.split(",") as Module[])
+    : [],
+  ENABLED_TASK_TYPES: ENABLED_TASK_TYPES
+    ? (ENABLED_TASK_TYPES.split(",") as TaskType[])
     : [],
   ENABLED_TASKS: ENABLED_TASKS ? ENABLED_TASKS.split(",") : [],
   POSTGRESQL_URL,

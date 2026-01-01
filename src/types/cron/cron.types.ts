@@ -1,3 +1,5 @@
+export type TaskType = "cache" | "service" | "business";
+
 export type TaskContext = {
   updateProgress: (progress: number) => Promise<void>;
 };
