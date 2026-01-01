@@ -27,12 +27,7 @@ export const contextHelpersMiddleware: MiddlewareFn<BotContext> = async (
       }
     }
 
-    const options = {
-      ...(extra || {}),
-      disable_notification: true,
-    } as never;
-
-    return ctx.reply(text, options);
+    return ctx.reply(text, { ...(extra || {}), disable_notification: true });
   };
 
   await next();
