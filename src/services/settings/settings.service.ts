@@ -65,7 +65,13 @@ export class SettingsService {
     const userId = ctx.state.user?.id;
     if (!userId) return;
 
-    await this.setUserLanguage({ userId, language });
+    const { updated } = await this.setUserLanguage({ userId, language });
+    if (!updated) {
+      await ctx.answerCbQuery(
+        ctx.t("services.settings.text.LANGUAGE_ALREADY_SELECTED")
+      );
+      return;
+    }
 
     ctx.state.language = language;
     const fixedT = i18next.getFixedT(language);
@@ -90,7 +96,7 @@ export class SettingsService {
 
     await ctx.answerCbQuery(ctx.t("services.settings.text.LANGUAGE_UPDATED"));
 
-    await ctx.replyWithNewMessage(text, keyboard);
+    await ctx.editMessageText(text, keyboard);
   }
 
   /**
@@ -99,7 +105,7 @@ export class SettingsService {
   async setUserLanguage(params: {
     userId: string;
     language: UserLanguage;
-  }): Promise<UserSettings> {
+  }): Promise<{ settings: UserSettings; updated: boolean }> {
     const { userId, language } = params;
 
     let settings = await this.userSettingsRepository.findOne({
@@ -108,14 +114,20 @@ export class SettingsService {
 
     if (!settings) {
       settings = this.userSettingsRepository.create({ userId, language });
-      return await this.userSettingsRepository.save(settings);
+      return {
+        settings: await this.userSettingsRepository.save(settings),
+        updated: true,
+      };
     }
 
     if (settings.language === language) {
-      return settings;
+      return { settings, updated: false };
     }
 
     settings.language = language;
-    return await this.userSettingsRepository.save(settings);
+    return {
+      settings: await this.userSettingsRepository.save(settings),
+      updated: true,
+    };
   }
 }

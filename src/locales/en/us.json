@@ -33,6 +33,7 @@
       "text": {
         "TITLE": "Settings",
         "CHOOSE_LANGUAGE": "Choose language",
+        "LANGUAGE_ALREADY_SELECTED": "This language is already selected",
         "LANGUAGE_UPDATED": "Language updated"
       },
       "buttons": {

@@ -33,6 +33,7 @@
       "text": {
         "TITLE": "Настройки",
         "CHOOSE_LANGUAGE": "Выберите язык",
+        "LANGUAGE_ALREADY_SELECTED": "Этот язык уже выбран",
         "LANGUAGE_UPDATED": "Язык успешно обновлен"
       },
       "buttons": {
